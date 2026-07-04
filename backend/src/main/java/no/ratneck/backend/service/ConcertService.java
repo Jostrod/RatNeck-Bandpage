@@ -3,6 +3,7 @@ package no.ratneck.backend.service;
 
 import no.ratneck.backend.entity.Concert;
 import no.ratneck.backend.entity.ConcertDTO;
+import no.ratneck.backend.exception.ConcertNotFoundException;
 import no.ratneck.backend.repository.ConcertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class ConcertService {
     }
 
     public ConcertDTO getConcertById(Long id){
-        Concert foundConcert = concertRepository.findById(id).orElseThrow();
+        Concert foundConcert = concertRepository.findById(id).orElseThrow(() -> new ConcertNotFoundException("No concert found with ID " + id));
 
         return new ConcertDTO(foundConcert.getVenue(), foundConcert.getCity(),
                 foundConcert.getDate(), foundConcert.getTicketPrice(), foundConcert.getTicketLink());
