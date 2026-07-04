@@ -24,14 +24,15 @@ public class ConcertController {
 
 
     @PostMapping()
-    public Concert createConcert(@RequestBody Concert concert){
+    public ConcertDTO createConcert(@RequestBody Concert concert){
         return concertService.createConcert(concert);
     }
 
     @GetMapping("/{id}")
-    public Optional<Concert> getConcert(@PathVariable Long id){
+    public ConcertDTO getConcert(@PathVariable Long id){
         return concertService.getConcertById(id);
     }
+
 
     @GetMapping
     public List<ConcertDTO> getConcerts(){
@@ -39,7 +40,7 @@ public class ConcertController {
     }
 
     @PutMapping("/{id}")
-    public Concert updateConcert(@PathVariable Long id, @RequestBody Concert concert){
+    public ConcertDTO updateConcert(@PathVariable Long id, @RequestBody Concert concert){
         return concertService.updateConcert(id, concert);
     }
 
