@@ -2,7 +2,9 @@ package no.ratneck.backend.controller;
 
 
 import no.ratneck.backend.entity.Concert;
+import no.ratneck.backend.entity.ConcertDTO;
 import no.ratneck.backend.service.ConcertService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +17,8 @@ public class ConcertController {
     private final ConcertService concertService;
 
 
-    public ConcertController(ConcertService concertService ) {
+
+    public ConcertController(ConcertService concertService) {
         this.concertService = concertService;
     }
 
@@ -31,7 +34,7 @@ public class ConcertController {
     }
 
     @GetMapping
-    public List<Concert> getConcerts(){
+    public List<ConcertDTO> getConcerts(){
         return concertService.getAllConcerts();
     }
 
