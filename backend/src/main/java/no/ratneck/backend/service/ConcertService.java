@@ -5,6 +5,7 @@ import no.ratneck.backend.entity.Concert;
 import no.ratneck.backend.entity.ConcertDTO;
 import no.ratneck.backend.repository.ConcertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,12 +32,18 @@ public class ConcertService {
                 )).toList();
     }
 
-    public Optional<Concert> getConcertById(Long id){
-        return concertRepository.findById(id);
+    public ConcertDTO getConcertById(Long id){
+        Concert foundConcert = concertRepository.findById(id).orElseThrow();
+
+        return new ConcertDTO(foundConcert.getVenue(), foundConcert.getCity(),
+                foundConcert.getDate(), foundConcert.getTicketPrice(), foundConcert.getTicketLink());
     }
 
-    public Concert createConcert(Concert concert){
-        return concertRepository.save(concert);
+    public ConcertDTO createConcert(Concert concert){
+        Concert savedConcert = concertRepository.save(concert);
+
+        return new ConcertDTO(savedConcert.getVenue(), savedConcert.getCity(),
+                savedConcert.getDate(), savedConcert.getTicketPrice(), savedConcert.getTicketLink());
 
     }
 
@@ -44,7 +51,7 @@ public class ConcertService {
         concertRepository.deleteById(id);
     }
 
-    public Concert updateConcert(Long id, Concert concert){
+    public ConcertDTO updateConcert(Long id, Concert concert){
         Concert existingConcert = concertRepository.findById(id).orElseThrow();
 
         existingConcert.setCity(concert.getCity());
@@ -53,7 +60,8 @@ public class ConcertService {
         existingConcert.setTicketPrice(concert.getTicketPrice());
         existingConcert.setTicketLink(concert.getTicketLink());
         concertRepository.save(existingConcert);
-        return existingConcert;
+        return new ConcertDTO(existingConcert.getVenue(), existingConcert.getCity(),
+                existingConcert.getDate(), existingConcert.getTicketPrice(), existingConcert.getTicketLink());
 
     }
 
