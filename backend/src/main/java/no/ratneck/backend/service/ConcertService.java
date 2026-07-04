@@ -2,12 +2,14 @@ package no.ratneck.backend.service;
 
 
 import no.ratneck.backend.entity.Concert;
+import no.ratneck.backend.entity.ConcertDTO;
 import no.ratneck.backend.repository.ConcertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ConcertService {
@@ -15,13 +17,18 @@ public class ConcertService {
     private final ConcertRepository concertRepository;
 
 
+
     @Autowired
     public ConcertService(ConcertRepository concertRepository) {
         this.concertRepository = concertRepository;
     }
 
-    public List<Concert> getAllConcerts(){
-        return concertRepository.findAll();
+    public List<ConcertDTO> getAllConcerts(){
+        List<Concert> concerts = concertRepository.findAll();
+
+        return concerts.stream().map(concert -> new ConcertDTO(
+                concert.getVenue(), concert.getCity(), concert.getDate(), concert.getTicketPrice(), concert.getTicketLink()
+                )).toList();
     }
 
     public Optional<Concert> getConcertById(Long id){
