@@ -1,6 +1,8 @@
 package no.ratneck.backend.controller;
 
 
+import jakarta.validation.Valid;
+import no.ratneck.backend.dto.ConcertRequestDTO;
 import no.ratneck.backend.entity.Concert;
 import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.service.ConcertService;
@@ -22,8 +24,8 @@ public class ConcertController {
 
 
     @PostMapping()
-    public ConcertDTO createConcert(@RequestBody Concert concert){
-        return concertService.createConcert(concert);
+    public ConcertDTO createConcert(@Valid @RequestBody ConcertRequestDTO concertRequestDTO){
+        return concertService.createConcert(concertRequestDTO);
     }
 
     @GetMapping("/{id}")
@@ -39,8 +41,8 @@ public class ConcertController {
     }
 
     @PutMapping("/{id}")
-    public ConcertDTO updateConcert(@PathVariable Long id, @RequestBody Concert concert){
-        return concertService.updateConcert(id, concert);
+    public ConcertDTO updateConcert( @PathVariable Long id, @Valid @RequestBody ConcertRequestDTO concertRequestDTO){
+        return concertService.updateConcert(id, concertRequestDTO);
     }
 
     @DeleteMapping("/{id}")
