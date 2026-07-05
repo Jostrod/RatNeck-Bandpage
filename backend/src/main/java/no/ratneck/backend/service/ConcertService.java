@@ -6,6 +6,8 @@ import no.ratneck.backend.entity.Concert;
 import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.exception.ConcertNotFoundException;
 import no.ratneck.backend.repository.ConcertRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ import java.util.List;
 public class ConcertService {
 
     private final ConcertRepository concertRepository;
-
+    private static final Logger logger = LoggerFactory.getLogger(ConcertService.class);
 
 
     @Autowired
@@ -24,8 +26,9 @@ public class ConcertService {
     }
 
     public List<ConcertDTO> getAllConcerts(){
-        List<Concert> concerts = concertRepository.findAll();
 
+        List<Concert> concerts = concertRepository.findAll();
+        logger.info("Returned all concerts");
         return concerts.stream().map(concert -> new ConcertDTO(
                 concert.getVenue(), concert.getCity(), concert.getDate(), concert.getTicketPrice(), concert.getTicketLink()
                 )).toList();
@@ -34,6 +37,7 @@ public class ConcertService {
     public ConcertDTO getConcertById(Long id){
         Concert foundConcert = concertRepository.findById(id).orElseThrow(() -> new ConcertNotFoundException("No concert found with ID " + id));
 
+        logger.info("Concert retrieved with id {}", id);
         return new ConcertDTO(foundConcert.getVenue(), foundConcert.getCity(),
                 foundConcert.getDate(), foundConcert.getTicketPrice(), foundConcert.getTicketLink());
     }
@@ -49,14 +53,16 @@ public class ConcertService {
 
 
         Concert savedConcert = concertRepository.save(concert);
-
+        logger.info("Concert created with id: {}: {}", savedConcert.getId(), savedConcert.getVenue());
         return new ConcertDTO(savedConcert.getVenue(), savedConcert.getCity(),
                 savedConcert.getDate(), savedConcert.getTicketPrice(), savedConcert.getTicketLink());
 
     }
 
     public void deleteConcert(Long id){
-        concertRepository.deleteById(id);
+        Concert foundConcert = concertRepository.findById(id).orElseThrow(() -> new ConcertNotFoundException("No concert found with id " + id));
+        concertRepository.deleteById(foundConcert.getId());
+        logger.info("Concert with id: {} was successfully deleted", id);
     }
 
     public ConcertDTO updateConcert(Long id, ConcertRequestDTO requestDTO){
@@ -68,6 +74,7 @@ public class ConcertService {
         existingConcert.setTicketPrice(requestDTO.getTicketPrice());
         existingConcert.setTicketLink(requestDTO.getTicketLink());
         concertRepository.save(existingConcert);
+        logger.info("Concert with id {} successfully updated", existingConcert.getId());
         return new ConcertDTO(existingConcert.getVenue(), existingConcert.getCity(),
                 existingConcert.getDate(), existingConcert.getTicketPrice(), existingConcert.getTicketLink());
 
