@@ -2,13 +2,11 @@ package no.ratneck.backend.controller;
 
 
 import no.ratneck.backend.entity.Concert;
-import no.ratneck.backend.entity.ConcertDTO;
+import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.service.ConcertService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/concerts")
