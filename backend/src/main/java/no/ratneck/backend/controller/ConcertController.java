@@ -31,6 +31,7 @@ public class ConcertController {
     @GetMapping("/{id}")
     public ConcertDTO getConcert(@PathVariable Long id){
         return concertService.getConcertById(id);
+
     }
 
 
