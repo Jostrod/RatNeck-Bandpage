@@ -1,17 +1,15 @@
 package no.ratneck.backend.service;
 
 
+import no.ratneck.backend.dto.ConcertRequestDTO;
 import no.ratneck.backend.entity.Concert;
-import no.ratneck.backend.entity.ConcertDTO;
+import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.exception.ConcertNotFoundException;
 import no.ratneck.backend.repository.ConcertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ConcertService {
@@ -40,7 +38,16 @@ public class ConcertService {
                 foundConcert.getDate(), foundConcert.getTicketPrice(), foundConcert.getTicketLink());
     }
 
-    public ConcertDTO createConcert(Concert concert){
+    public ConcertDTO createConcert(ConcertRequestDTO requestDTO){
+
+        Concert concert = new Concert();
+        concert.setCity(requestDTO.getCity());
+        concert.setDate(requestDTO.getDate());
+        concert.setVenue(requestDTO.getVenue());
+        concert.setTicketPrice(requestDTO.getTicketPrice());
+        concert.setTicketLink(requestDTO.getTicketLink());
+
+
         Concert savedConcert = concertRepository.save(concert);
 
         return new ConcertDTO(savedConcert.getVenue(), savedConcert.getCity(),
@@ -52,14 +59,14 @@ public class ConcertService {
         concertRepository.deleteById(id);
     }
 
-    public ConcertDTO updateConcert(Long id, Concert concert){
-        Concert existingConcert = concertRepository.findById(id).orElseThrow();
+    public ConcertDTO updateConcert(Long id, ConcertRequestDTO requestDTO){
+        Concert existingConcert = concertRepository.findById(id).orElseThrow(() -> new ConcertNotFoundException("No concert found with id " + id));
 
-        existingConcert.setCity(concert.getCity());
-        existingConcert.setDate(concert.getDate());
-        existingConcert.setVenue(concert.getVenue());
-        existingConcert.setTicketPrice(concert.getTicketPrice());
-        existingConcert.setTicketLink(concert.getTicketLink());
+        existingConcert.setCity(requestDTO.getCity());
+        existingConcert.setDate(requestDTO.getDate());
+        existingConcert.setVenue(requestDTO.getVenue());
+        existingConcert.setTicketPrice(requestDTO.getTicketPrice());
+        existingConcert.setTicketLink(requestDTO.getTicketLink());
         concertRepository.save(existingConcert);
         return new ConcertDTO(existingConcert.getVenue(), existingConcert.getCity(),
                 existingConcert.getDate(), existingConcert.getTicketPrice(), existingConcert.getTicketLink());
