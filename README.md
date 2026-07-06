@@ -1,7 +1,7 @@
 # RatNeck-Bandpage
 Website built for the norwegian rock band RatNeck. The site will include a merch store, contact site and a concert-management-system for the band. 
 
-## Tech Stach
+## Tech Stack
 
 ### Backend:
 - Java 21, Spring Boot, Maven
@@ -19,9 +19,20 @@ Website built for the norwegian rock band RatNeck. The site will include a merch
 
 
 ## Status
-Backend mostly opreational. Non-essentials at this point like Authentication and Swagger is not yet set up. CORS is configured to allow frontend-bakcned communication.
+Backend mostly operational. Non-essentials at this point like Authentication and Swagger is not yet set up. CORS is configured to allow frontend-backend communication.
+### Backend
+- [x] Concert CRUD API
+- [x] Input validation and error handling
+- [x] Unit and integration tests
+- [x] CORS configuration
+- [ ] Authentication
+- [ ] Persistent database (currently H2 in-memory)
+
+### Frontend
+- [ ] Not started
 
 ## Architecture
+```
 HTTP Request
     │
     ▼
@@ -35,7 +46,7 @@ Repository  ──── database access (Spring Data JPA)
     │
     ▼
 H2 Database
-
+```
 ## API Endpoints
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -66,13 +77,4 @@ npm run dev
 ```
 Runs on `http://localhost:3000`
 
-### Backend
-- [x] Concert CRUD API
-- [x] Input validation and error handling
-- [x] Unit and integration tests
-- [x] CORS configuration
-- [ ] Authentication
-- [ ] Persistent database (currently H2 in-memory)
 
-### Frontend
-- [ ] Not started
