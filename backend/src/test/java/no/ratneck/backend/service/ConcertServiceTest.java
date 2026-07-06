@@ -7,6 +7,7 @@ import no.ratneck.backend.exception.ConcertNotFoundException;
 import no.ratneck.backend.repository.ConcertRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -119,14 +120,15 @@ public class ConcertServiceTest {
 
     @Test
     public void given_valid_request_when_create_concert_service_maps_all_fields(){
+        ArgumentCaptor<Concert> capturedConcert = ArgumentCaptor.forClass(Concert.class);
 
-        //TODO - add ArgumentCaptor
         ConcertRequestDTO requestDTO = new ConcertRequestDTO();
         requestDTO.setCity("Trondheim");
         requestDTO.setVenue("Spektrum");
         requestDTO.setDate(LocalDateTime.of(2027, 8, 15, 21, 0));
         requestDTO.setTicketLink("link.no");
         requestDTO.setTicketPrice(200.0);
+
 
         Concert savedConcert = new Concert();
 
@@ -139,6 +141,14 @@ public class ConcertServiceTest {
         when(concertRepository.save(any(Concert.class))).thenReturn(savedConcert);
 
         ConcertDTO response = concertService.createConcert(requestDTO);
+        verify(concertRepository).save(capturedConcert.capture());
+
+        Concert captured = capturedConcert.getValue();
+
+        assertEquals("Trondheim", captured.getCity());
+        assertEquals("Spektrum", captured.getVenue());
+        assertEquals("link.no", captured.getTicketLink());
+        assertEquals(200.0, captured.getTicketPrice());
 
         assertEquals("Trondheim", response.getCity());
         assertEquals("Spektrum", response.getVenue());
