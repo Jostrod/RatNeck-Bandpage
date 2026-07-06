@@ -19,7 +19,7 @@ Website built for the norwegian rock band RatNeck. The site will include a merch
 
 
 ## Status
-Backend mostly operational. Non-essentials at this point like Authentication and Swagger is not yet set up. CORS is configured to allow frontend-backend communication.
+Backend mostly operational. Non-essentials at this point like Authentication and Swagger are not yet set up. CORS is configured to allow frontend-backend communication.
 ### Backend
 - [x] Concert CRUD API
 - [x] Input validation and error handling
