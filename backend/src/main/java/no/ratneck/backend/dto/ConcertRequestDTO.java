@@ -23,11 +23,4 @@ public class ConcertRequestDTO {
     @NotBlank
     private String ticketLink;
 
-    public ConcertRequestDTO(String venue, String city, LocalDateTime date, double ticketPrice, String ticketLink) {
-        this.venue = venue;
-        this.city = city;
-        this.date = date;
-        this.ticketPrice = ticketPrice;
-        this.ticketLink = ticketLink;
-    }
 }
