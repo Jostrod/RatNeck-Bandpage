@@ -1,6 +1,11 @@
+<script>
+import TheNavBar from './components/TheNavBar.vue';
+
+</script>
+
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <TheNavBar />
   </div>
 </template>
