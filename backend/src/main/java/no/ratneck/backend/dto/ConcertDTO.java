@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 
 @Data
 public class ConcertDTO {
+
+    private Long id;
+
     private String venue;
 
     private String city;
@@ -17,7 +20,8 @@ public class ConcertDTO {
 
     private String ticketLink;
 
-    public ConcertDTO(String venue, String city, LocalDateTime date, double ticketPrice, String ticketLink) {
+    public ConcertDTO(Long id, String venue, String city, LocalDateTime date, double ticketPrice, String ticketLink) {
+        this.id = id;
         this.venue = venue;
         this.city = city;
         this.date = date;
