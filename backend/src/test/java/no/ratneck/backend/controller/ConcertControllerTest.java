@@ -42,7 +42,7 @@ public class ConcertControllerTest {
     public void should_return_concert_when_concert_exists() throws Exception {
         //Given
         Long id = 1L;
-        ConcertDTO mockConcert = new ConcertDTO("Spektrum",
+        ConcertDTO mockConcert = new ConcertDTO(1L,"Spektrum",
                 "Trondheim",
                 LocalDateTime.of(2027, 8, 15, 20, 0),
                 200.0,
@@ -83,7 +83,7 @@ public class ConcertControllerTest {
         requestDTO.setCity("Trondheim");
 
 
-        ConcertDTO returnedDTO = new ConcertDTO("Spektrum",
+        ConcertDTO returnedDTO = new ConcertDTO(1L,"Spektrum",
                 "Trondheim",
                 LocalDateTime.of(2027, 8, 15, 20, 0),
                 200.0,
@@ -118,11 +118,11 @@ public class ConcertControllerTest {
 
     @Test
     public void given_valid_concerts_when_get_concerts_returns_ok() throws Exception{
-        ConcertDTO concert1 = new ConcertDTO("Spektrum", "Trondheim",
+        ConcertDTO concert1 = new ConcertDTO( 1L, "Spektrum", "Trondheim",
                 LocalDateTime.of(2027, 8, 15, 20, 0),
                 200.0, "link1.no");
 
-        ConcertDTO concert2 = new ConcertDTO("Sentrum Scene", "Oslo",
+        ConcertDTO concert2 = new ConcertDTO(2L, "Sentrum Scene", "Oslo",
                 LocalDateTime.of(2027, 9, 20, 19, 0),
                 350.0, "link2.no");
 
