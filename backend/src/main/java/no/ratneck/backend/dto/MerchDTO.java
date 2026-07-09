@@ -1,7 +1,4 @@
 package no.ratneck.backend.dto;
-
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 import no.ratneck.backend.common.*;
 
@@ -12,22 +9,20 @@ public class MerchDTO {
 
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     private MerchType merchType;
 
     private BigDecimal price;
 
-    private boolean quantity;
+    private boolean inStock;
 
-    @Enumerated(EnumType.STRING)
     private Size size;
 
 
-    public MerchDTO(Long id, MerchType merchType, BigDecimal price, boolean quantity, Size size) {
+    public MerchDTO(Long id, MerchType merchType, BigDecimal price, boolean inStock, Size size) {
         this.id = id;
         this.merchType = merchType;
         this.price = price;
-        this.quantity = quantity;
+        this.inStock = inStock;
         this.size = size;
     }
 }
