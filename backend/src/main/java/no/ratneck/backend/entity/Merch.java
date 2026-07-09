@@ -24,7 +24,7 @@ public class Merch {
 
     private BigDecimal price;
 
-    private int quantity;
+    private boolean quantity;
 
     @Enumerated(EnumType.STRING)
     private Size size;
