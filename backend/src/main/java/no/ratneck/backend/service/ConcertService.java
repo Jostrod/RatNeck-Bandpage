@@ -4,7 +4,7 @@ package no.ratneck.backend.service;
 import no.ratneck.backend.dto.ConcertRequestDTO;
 import no.ratneck.backend.entity.Concert;
 import no.ratneck.backend.dto.ConcertDTO;
-import no.ratneck.backend.exception.ConcertNotFoundException;
+import no.ratneck.backend.exception.ResourceNotFoundException;
 import no.ratneck.backend.repository.ConcertRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class ConcertService {
     }
 
     public ConcertDTO getConcertById(Long id){
-        Concert foundConcert = concertRepository.findById(id).orElseThrow(() -> new ConcertNotFoundException("No concert found with ID " + id));
+        Concert foundConcert = concertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Concert", id));
 
         logger.info("Concert retrieved with id {}", id);
         return new ConcertDTO(foundConcert.getId(), foundConcert.getVenue(), foundConcert.getCity(),
@@ -60,13 +60,13 @@ public class ConcertService {
     }
 
     public void deleteConcert(Long id){
-        Concert foundConcert = concertRepository.findById(id).orElseThrow(() -> new ConcertNotFoundException("No concert found with id " + id));
+        Concert foundConcert = concertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Concert", id));
         concertRepository.deleteById(foundConcert.getId());
         logger.info("Concert with id: {} was successfully deleted", id);
     }
 
     public ConcertDTO updateConcert(Long id, ConcertRequestDTO requestDTO){
-        Concert existingConcert = concertRepository.findById(id).orElseThrow(() -> new ConcertNotFoundException("No concert found with id " + id));
+        Concert existingConcert = concertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Concert", id));
 
         existingConcert.setCity(requestDTO.getCity());
         existingConcert.setDate(requestDTO.getDate());

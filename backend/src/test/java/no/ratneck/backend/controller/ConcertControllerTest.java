@@ -3,8 +3,7 @@ package no.ratneck.backend.controller;
 
 import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.dto.ConcertRequestDTO;
-import no.ratneck.backend.entity.Concert;
-import no.ratneck.backend.exception.ConcertNotFoundException;
+import no.ratneck.backend.exception.ResourceNotFoundException;
 import no.ratneck.backend.service.ConcertService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -64,12 +62,12 @@ public class ConcertControllerTest {
     @Test
     public void should_throw_concert_not_found_exception_when_concert_not_found() throws Exception {
 
-        when(concertService.getConcertById(999L)).thenThrow(new ConcertNotFoundException("Concert not found"));
+        when(concertService.getConcertById(999L)).thenThrow(new ResourceNotFoundException("Concert", 999L));
 
         mvc.perform(get("/api/concerts/{id}", 999L))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
-                .andExpect(jsonPath("$.message").value("Concert not found"));
+                .andExpect(jsonPath("$.message").value("No Concert found with ID 999"));
     }
 
     @Test

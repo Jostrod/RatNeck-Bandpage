@@ -3,7 +3,7 @@ package no.ratneck.backend.service;
 import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.dto.ConcertRequestDTO;
 import no.ratneck.backend.entity.Concert;
-import no.ratneck.backend.exception.ConcertNotFoundException;
+import no.ratneck.backend.exception.ResourceNotFoundException;
 import no.ratneck.backend.repository.ConcertRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,14 +63,14 @@ public class ConcertServiceTest {
         when(concertRepository.findById(999L)).thenReturn(Optional.empty());
 
         //Then
-        assertThrows(ConcertNotFoundException.class, () -> concertService.getConcertById(999L));
+        assertThrows(ResourceNotFoundException.class, () -> concertService.getConcertById(999L));
     }
 
     @Test
     public void given_concert_id_not_found_when_update_concert_service_throws_concert_not_found(){
         when(concertRepository.findById(999L)).thenReturn(Optional.empty());
         ConcertRequestDTO dto = new ConcertRequestDTO();
-        assertThrows(ConcertNotFoundException.class, () -> concertService.updateConcert(999L, dto));
+        assertThrows(ResourceNotFoundException.class, () -> concertService.updateConcert(999L, dto));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class ConcertServiceTest {
     @Test
     public void given_concert_id_not_found_when_delete_concert_service_return_concert_not_found_exception(){
         when(concertRepository.findById(999L)).thenReturn(Optional.empty());
-        assertThrows(ConcertNotFoundException.class, () -> concertService.deleteConcert(999L));
+        assertThrows(ResourceNotFoundException.class, () -> concertService.deleteConcert(999L));
     }
 
     @Test

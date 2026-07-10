@@ -22,8 +22,8 @@ public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(ConcertNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleConcertNotFound(ConcertNotFoundException exception, HttpServletRequest request){
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException exception, HttpServletRequest request){
         logger.warn("{} ", exception.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
