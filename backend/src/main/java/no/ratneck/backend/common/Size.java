@@ -2,8 +2,8 @@ package no.ratneck.backend.common;
 
 public enum Size {
     XS,
-    SMALL,
-    MEDIUM,
-    LARGE,
+    S,
+    M,
+    L,
     XL
 }

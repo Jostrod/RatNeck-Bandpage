@@ -3,7 +3,7 @@ package no.ratneck.backend.controller;
 
 import jakarta.validation.Valid;
 import no.ratneck.backend.dto.ConcertRequestDTO;
-import no.ratneck.backend.entity.Concert;
+
 import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.service.ConcertService;
 import org.springframework.web.bind.annotation.*;
