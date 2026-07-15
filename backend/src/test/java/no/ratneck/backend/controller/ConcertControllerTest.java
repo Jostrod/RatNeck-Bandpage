@@ -37,7 +37,7 @@ public class ConcertControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void should_return_concert_when_concert_exists() throws Exception {
+    public void given_existing_concert_id_when_get_concert_returns_concert_dto() throws Exception {
         //Given
         Long id = 1L;
         ConcertDTO mockConcert = new ConcertDTO(1L,"Spektrum",
@@ -60,7 +60,7 @@ public class ConcertControllerTest {
     }
 
     @Test
-    public void should_throw_concert_not_found_exception_when_concert_not_found() throws Exception {
+    public void given_concert_not_found_when_get_concert_by_id_returns_not_found() throws Exception {
 
         when(concertService.getConcertById(999L)).thenThrow(new ResourceNotFoundException("Concert", 999L));
 
@@ -101,16 +101,13 @@ public class ConcertControllerTest {
     @Test
     public void given_invalid_data_when_post_concert_returns_bad_request() throws Exception {
         ConcertRequestDTO invalidConcert = new ConcertRequestDTO();
-        invalidConcert.setCity("Trondheim");
         invalidConcert.setTicketPrice(-200.0);
-        invalidConcert.setTicketLink("link.no");
 
         mvc.perform(post("/api/concerts")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidConcert)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.venue").exists())
-                .andExpect(jsonPath("$.date").exists());
+                .andExpect(jsonPath("$.ticketPrice").exists());
 
     }
 

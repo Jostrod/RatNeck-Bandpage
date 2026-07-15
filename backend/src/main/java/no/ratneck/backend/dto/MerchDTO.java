@@ -25,4 +25,5 @@ public class MerchDTO {
         this.inStock = inStock;
         this.size = size;
     }
+
 }
