@@ -9,7 +9,6 @@ import TheNavBar from './components/TheNavBar.vue';
     
     <NuxtRouteAnnouncer />
     <TheNavBar />
-
     <NuxtPage />
   </div>
 </template>
