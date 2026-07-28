@@ -84,7 +84,15 @@ public class DatabaseSeeder implements CommandLineRunner {
             cd.setQuantity(150);
 
 
-            merchRepository.saveAll(List.of(tshirt1, tshirt2, poster, cd));
+            Merch sweater = new Merch();
+
+            sweater.setMerchType(MerchType.SWEATER);
+            sweater.setSize(Size.L);
+            sweater.setPrice(BigDecimal.valueOf(500.0));
+            sweater.setQuantity(0);
+
+
+            merchRepository.saveAll(List.of(tshirt1, tshirt2, poster, cd, sweater));
 
 
 
