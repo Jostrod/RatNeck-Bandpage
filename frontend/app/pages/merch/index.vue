@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import type { Merch } from '~/types/merch';
+import { createPinia } from 'pinia';
 
 const config = useRuntimeConfig()
 const { status, data: merch } = await useFetch<Merch[]>(config.public.apiBase + '/merch')
