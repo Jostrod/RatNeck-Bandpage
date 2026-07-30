@@ -23,12 +23,13 @@ const { status, data: merch } = await useFetch<Merch[]>(config.public.apiBase + 
         <div v-else>
             <div v-for="product in merch" :key="product.id">
 
-                
+                    <NuxtLink :to="`/merch/${product.id}`">
                     <div>{{ product.merchType }}</div>
                     <div v-if="product.size">{{ product.size }}</div>
                     <div>{{ formatCurrency(product.price) }}</div>
                     <div v-if="!product.inStock" class="text-red-600 font-bold">SOLD OUT</div>
                     <br>
+                    </NuxtLink>
             
                 
 
