@@ -45,7 +45,8 @@
         <div>Product id: {{ item.product.id }}</div>
         <br>
     </div>
-    <div>Total price: {{ formatCurrency(totalPrice) }}</div>
+
+    <div v-if="cartLines.length !== 0 ">Total price: {{ formatCurrency(totalPrice) }}</div>
     
 
 
