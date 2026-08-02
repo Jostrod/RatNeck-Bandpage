@@ -42,7 +42,9 @@
         <div>Item: {{ item.product.merchType }}</div>
         <div>quantity: {{ item.quantity }}</div>
         <div>Price: {{ formatCurrency(item.product.price) }}</div>
-        <div>Product id: {{ item.product.id }}</div>
+        <button @click="cart.addItem(item.product.id)" class="text-fg-brand bg-neutral-primary border border-brand hover:bg-brand focus:ring-4 focus:ring-brand-subtle font-medium leading-5 rounded-base text-xs px-3 py-1.5 focus:outline-none">Add 1</button>
+        <button @click="cart.decreaseItem(item.product.id)" class="bg-neutral-primary border border-danger hover:bg-danger hover:text-blue focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Remove 1</button>
+        <button @click="cart.deleteItem(item.product.id)" class="bg-red-500">Delete</button>
         <br>
     </div>
 
