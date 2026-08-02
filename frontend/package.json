@@ -10,8 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/icon": "^2.4.1",
     "@pinia/nuxt": "^1.0.1",
     "nuxt": "^4.4.8",
+    "nuxt-icon": "^1.0.0-beta.7",
     "pinia": "^4.0.2",
     "vue": "^3.5.38",
     "vue-router": "^5.1.0"
