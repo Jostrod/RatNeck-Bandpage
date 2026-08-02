@@ -1,10 +1,12 @@
 <script setup>
-import SvgLogo from './SvgLogo.vue';
+    import SvgLogo from './SvgLogo.vue';
+    const cart = useCartStore()
 </script>
 
 
 <template>
     <NuxtLink to="/cart">Shopping Cart</NuxtLink>
+    <div>{{ cart.totalItems }}</div>
     <nav class="navbar">
     <div class="nav-group nav-group-left">
       <NuxtLink to="/merch">Merch</NuxtLink>
