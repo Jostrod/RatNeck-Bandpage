@@ -9,6 +9,7 @@ const { status, data: merch } = await useFetch<Merch[]>(config.public.apiBase + 
 
 
 <template>
+    
 
     <div>
 

@@ -1,3 +1,4 @@
+
 export interface CartItem {
   id: number;
 
@@ -8,6 +9,14 @@ export const useCartStore = defineStore("cart", {
   state: () => ({
     items: [] as CartItem[],
   }),
+
+  getters: {
+      totalItems(state) {
+          return state.items.reduce((sum, line) => sum + line.quantity, 0)
+      } 
+    },
+  
+
   actions: {
     addItem(id: number) {
       const exists = this.items.find((item) => item.id === id);
@@ -33,7 +42,8 @@ export const useCartStore = defineStore("cart", {
         exists.quantity -= 1;
       } else {
         this.deleteItem(id);
-      }
+        }
+      },
     },
-  },
-});
+  }
+);
