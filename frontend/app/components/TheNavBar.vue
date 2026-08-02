@@ -4,6 +4,7 @@ import SvgLogo from './SvgLogo.vue';
 
 
 <template>
+    <NuxtLink to="/cart">Shopping Cart</NuxtLink>
     <nav class="navbar">
     <div class="nav-group nav-group-left">
       <NuxtLink to="/merch">Merch</NuxtLink>
