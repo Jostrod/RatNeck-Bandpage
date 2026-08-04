@@ -6,6 +6,7 @@ import no.ratneck.backend.entity.Concert;
 import no.ratneck.backend.entity.Merch;
 import no.ratneck.backend.repository.ConcertRepository;
 import no.ratneck.backend.repository.MerchRepository;
+import no.ratneck.backend.repository.OrderRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -20,10 +21,12 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     private final ConcertRepository concertRepository;
     private final MerchRepository merchRepository;
+    private final OrderRepository orderRepository;
 
-    public DatabaseSeeder(ConcertRepository concertRepository, MerchRepository merchRepository) {
+    public DatabaseSeeder(ConcertRepository concertRepository, MerchRepository merchRepository, OrderRepository orderRepository) {
         this.concertRepository = concertRepository;
         this.merchRepository = merchRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -91,8 +94,10 @@ public class DatabaseSeeder implements CommandLineRunner {
             sweater.setPrice(BigDecimal.valueOf(500.0));
             sweater.setQuantity(0);
 
-
             merchRepository.saveAll(List.of(tshirt1, tshirt2, poster, cd, sweater));
+
+
+
 
 
 

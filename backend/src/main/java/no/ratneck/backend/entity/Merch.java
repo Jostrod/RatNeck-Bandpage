@@ -12,7 +12,6 @@ import no.ratneck.backend.common.Size;
 @Getter
 @Setter
 @Entity
-@Table
 public class Merch {
 
     @Id
