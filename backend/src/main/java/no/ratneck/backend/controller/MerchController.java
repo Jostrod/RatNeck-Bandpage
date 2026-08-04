@@ -29,6 +29,7 @@ public class MerchController {
         return merchService.getMerchById(id);
     }
 
+
     @GetMapping
     public List<MerchDTO> getAllMerch(){
         return merchService.getAllMerch();

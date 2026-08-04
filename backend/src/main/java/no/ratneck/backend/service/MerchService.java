@@ -49,6 +49,7 @@ public class MerchService {
         );
     }
 
+
     public MerchDTO addMerch(MerchRequestDTO requestDTO){
 
         Merch merch = new Merch();

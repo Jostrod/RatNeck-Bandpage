@@ -1,30 +1,29 @@
 package no.ratneck.backend.entity;
 
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
-import no.ratneck.backend.common.MerchType;
-import no.ratneck.backend.common.Size;
 @Getter
 @Setter
 @Entity
-public class Merch {
+public class OrderLine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private MerchType merchType;
+    @ManyToOne
+    private Order order;
 
-    private BigDecimal price;
+    @ManyToOne
+    private Merch merch;
 
+    @Positive
     private int quantity;
 
-    @Enumerated(EnumType.STRING)
-    private Size size;
+    private BigDecimal priceAtPurchase;
 }
