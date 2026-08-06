@@ -8,6 +8,7 @@ import no.ratneck.backend.dto.OrderResponseDTO;
 import no.ratneck.backend.entity.Merch;
 import no.ratneck.backend.entity.Order;
 import no.ratneck.backend.entity.OrderLine;
+import no.ratneck.backend.exception.InsufficientStockException;
 import no.ratneck.backend.exception.ResourceNotFoundException;
 import no.ratneck.backend.repository.MerchRepository;
 import no.ratneck.backend.repository.OrderRepository;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -35,13 +37,29 @@ public class OrderService {
         this.merchRepository = merchRepository;
     }
 
+    @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO request){
         Order order = new Order();
+
+        //Løkke 1 - slå opp merch - valider for hver linje
+
         for (OrderLineRequestDTO lineRequest : request.lines()) {
+
             Long productId = lineRequest.productId();
             Merch merch = merchRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Merch", productId));
+
+            if (lineRequest.quantity() > merch.getQuantity()){
+                throw new InsufficientStockException(merch.getMerchType(), lineRequest.quantity(), merch.getQuantity());
+            }
+
+        }
+
+        //Løkke 2 - Bygg linjene
+
+        for (OrderLineRequestDTO lineRequest : request.lines()) {
             OrderLine orderLine = new OrderLine();
             order.getOrderLines().add(orderLine);
+            Merch merch = merchRepository.findById(lineRequest.productId()).orElseThrow(() -> new ResourceNotFoundException("Merch", lineRequest.productId()));
 
             orderLine.setMerch(merch);
             orderLine.setQuantity(lineRequest.quantity());
@@ -50,6 +68,19 @@ public class OrderService {
             orderLine.setOrder(order);
 
         }
+
+        //Løkke 3 - Reduser lageret, trenger samme Merch-produkt.
+
+        for (OrderLineRequestDTO lineRequest : request.lines()) {
+            Merch merch = merchRepository.findById(lineRequest.productId()).orElseThrow(() -> new ResourceNotFoundException("Merch", lineRequest.productId()));
+
+
+            merch.setQuantity(merch.getQuantity() - lineRequest.quantity());
+            merchRepository.save(merch);
+
+        }
+
+
         Order savedOrder = orderRepository.save(order);
         BigDecimal total = savedOrder.getOrderLines().stream().map(
                 line ->
