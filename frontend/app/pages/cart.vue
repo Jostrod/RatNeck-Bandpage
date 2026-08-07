@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
     import type { Merch } from '~/types/merch';
+    import type { OrderResponse } from '~/types/OrderResponse';
 
     interface CartLine {
         quantity: number,
@@ -35,10 +36,14 @@
         
         try {
 
-        const response = await $fetch(config.public.apiBase + '/orders', {
+        const response = await $fetch<OrderResponse>(config.public.apiBase + '/orders', {
             method: 'POST',
             body: body
             })
+            cart.setLastOrder(response)
+            cart.clearItems()
+            await navigateTo('/receipt')
+            
         }
         catch(e) {
             errorMessage.value = 'An error occurred' 
