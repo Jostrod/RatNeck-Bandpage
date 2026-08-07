@@ -6,7 +6,7 @@
         quantity: number,
         product: Merch
     }
-
+    const errorMessage = ref('')
     const cart = useCartStore()
     const config = useRuntimeConfig()
     const { status, data: merch } = await useFetch<Merch[]>(config.public.apiBase + '/merch')
@@ -26,6 +26,21 @@
         return cartLines.value.reduce((sum, line) => sum + line.product.price * line.quantity, 0)
     })
 
+    
+    const checkout = async() => {
+        const body = { lines: cart.items.map(item => ({ productId: item.id, quantity: item.quantity })) }
+        
+        try {
+
+        const response = await $fetch(config.public.apiBase + '/orders', {
+            method: 'POST',
+            body: body
+            })
+        }
+     catch(e) {
+            errorMessage.value = 'An error occured' 
+        }
+    }
 </script>
 
 
@@ -48,7 +63,14 @@
         <br>
     </div>
 
-    <div v-if="cartLines.length !== 0 ">Total price: {{ formatCurrency(totalPrice) }}</div>
+    <div class="px-3 py-2" v-if="cartLines.length !== 0 ">Total price: {{ formatCurrency(totalPrice) }}</div>
+    <div class="py-1 px-2" v-if="cartLines.length !== 0 ">
+        <button @click="checkout" class="bg-green-400 rounded-full hover:bg-green-500 py-2 px-2">Complete purchase</button>
+    </div>
+
+    <div v-if="errorMessage">
+        {{ errorMessage }}
+    </div>
     
 
 
