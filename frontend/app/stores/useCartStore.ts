@@ -1,13 +1,15 @@
-
+import type { OrderResponse } from "~/types/OrderResponse";
 export interface CartItem {
-  id: number;
 
+  id: number;
   quantity: number;
+
 }
 
 export const useCartStore = defineStore("cart", {
   state: () => ({
     items: [] as CartItem[],
+    lastOrder: null as OrderResponse | null
   }),
 
   getters: {
@@ -44,6 +46,14 @@ export const useCartStore = defineStore("cart", {
         this.deleteItem(id);
         }
       },
-    },
+
+      setLastOrder(order: OrderResponse){
+        this.lastOrder = order 
+      },
+
+      clearItems() {
+        this.items = []
+      }
+    }
   }
 );
