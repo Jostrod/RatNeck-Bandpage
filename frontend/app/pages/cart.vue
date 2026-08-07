@@ -7,6 +7,7 @@
         product: Merch
     }
     const errorMessage = ref('')
+    const isSubmitting = ref(false)
     const cart = useCartStore()
     const config = useRuntimeConfig()
     const { status, data: merch } = await useFetch<Merch[]>(config.public.apiBase + '/merch')
@@ -28,6 +29,8 @@
 
     
     const checkout = async() => {
+        isSubmitting.value = true
+
         const body = { lines: cart.items.map(item => ({ productId: item.id, quantity: item.quantity })) }
         
         try {
@@ -37,9 +40,13 @@
             body: body
             })
         }
-     catch(e) {
-            errorMessage.value = 'An error occured' 
+        catch(e) {
+            errorMessage.value = 'An error occurred' 
+            }
+        finally {
+            isSubmitting.value = false
         }
+    
     }
 </script>
 
@@ -65,7 +72,7 @@
 
     <div class="px-3 py-2" v-if="cartLines.length !== 0 ">Total price: {{ formatCurrency(totalPrice) }}</div>
     <div class="py-1 px-2" v-if="cartLines.length !== 0 ">
-        <button @click="checkout" class="bg-green-400 rounded-full hover:bg-green-500 py-2 px-2">Complete purchase</button>
+        <button @click="checkout" :disabled="isSubmitting" class="bg-green-400 rounded-full hover:bg-green-500 py-2 px-2 disabled:opacity-50 disabled:cursor-not-allowed">Complete purchase</button>
     </div>
 
     <div v-if="errorMessage">
