@@ -5,80 +5,45 @@ const cart = useCartStore()
 
 
 <template>
+  <nav
+    class="grid grid-cols-[1fr_auto_1fr] grid-rows-[1fr_auto] items-center w-full min-h-[220px] bg-black/10 border border-black">
+    <!-- Cart -->
 
-    <div>
-        <NuxtLink to="/cart">
-            <div class="relative inline-block bg-blue-500 rounded-full">
-                <Icon name="mdi:cart" size="30px"></Icon>
-                <span class="absolute bottom-0 right-0 text-white w-5 h-5 flex items-center justify-center" v-if="cart.totalItems > 0" >
-                    {{ cart.totalItems }}
-                </span>
-                
-            </div>
-        </NuxtLink>
+    <div class="col-start-1 row-start-1 self-start justify-self-start">
+      <NuxtLink to="/cart">
+        <div class="relative inline-block bg-blue-500 rounded-full">
+          <Icon name="mdi:cart" size="30px" />
+          <span
+            v-if="cart.totalItems > 0"
+            class="absolute bottom-0 right-0 w-5 h-5 flex items-center justify-center">
+            {{ cart.totalItems }}
+          </span>
+        </div>
+      </NuxtLink>
     </div>
 
-  
+    <!-- Left nav group -->
 
-    <nav class="navbar">
-        <div class="nav-group nav-group-left">
-            <NuxtLink to="/merch">Merch</NuxtLink>
-            <NuxtLink to="/concerts">Concerts</NuxtLink>
-        </div>
+    <div
+      class="col-start-1 row-start-2 flex items-center gap-5 flex-wrap justify-evenly">
+      <NuxtLink to="/merch">Merch</NuxtLink>
+      <NuxtLink to="/concerts">Concerts</NuxtLink>
+    </div>
 
-        <NuxtLink to="/" class="logo-link">
-            <SvgLogo class="logo" />
-        </NuxtLink>
+    <!-- Logo -->
 
-        <div class="nav-group nav-group-right">
-            <NuxtLink to="/news">News</NuxtLink>
-            <NuxtLink to="/contact">Contact</NuxtLink>
-        </div>
-    </nav>
+    <NuxtLink
+      to="/"
+      class="col-start-2 row-start-1 self-center justify-self-center">
+      <SvgLogo class="h-[300px]" />
+    </NuxtLink>
 
+    <!-- Right nav group -->
+
+    <div
+      class="col-start-3 row-start-2 flex items-center gap-5 flex-wrap justify-evenly">
+      <NuxtLink to="/news">News</NuxtLink>
+      <NuxtLink to="/contact">Contact</NuxtLink>
+    </div>
+  </nav>
 </template>
-
-<style scoped>
-.navbar {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-rows: 1fr auto;
-    align-items: center;
-    width: 100%;
-    min-height: 220px;
-    ;
-
-}
-
-.nav-group {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    flex-wrap: wrap;
-    grid-row: 2;
-}
-
-.nav-group-left {
-    grid-column: 1;
-    justify-content: space-evenly;
-}
-
-.nav-group-right {
-    grid-column: 3;
-    justify-content: space-evenly;
-}
-
-
-.logo {
-
-    height: 300px;
-    align-self: center;
-    justify-self: center;
-
-}
-
-.logo-link {
-    grid-column: 2;
-    grid-row: 1;
-}
-</style>
