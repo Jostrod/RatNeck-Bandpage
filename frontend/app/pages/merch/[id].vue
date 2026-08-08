@@ -30,8 +30,7 @@
         <div v-if="merch.size">{{ merch.size }}</div>
         <div v-if="!merch.inStock" class="text-red-600 font-bold">SOLD OUT</div>
         <div>{{ formatCurrency(merch.price) }}</div>
-        <button :disabled="!merch.inStock" @click="cart.addItem(merch.id)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed">Add to basket</button>
-        
+        <BaseButton variant="primary" @click="cart.addItem(merch.id)" :disabled="!merch.inStock">Add to basket</BaseButton>
 
     </div>
 

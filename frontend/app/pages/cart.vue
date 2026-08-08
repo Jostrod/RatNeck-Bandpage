@@ -1,5 +1,6 @@
 <script setup lang="ts">
 
+    
     import type { Merch } from '~/types/merch';
     import type { OrderResponse } from '~/types/OrderResponse';
 
@@ -69,15 +70,20 @@
         <div>Item: {{ item.product.merchType }}</div>
         <div>quantity: {{ item.quantity }}</div>
         <div>Price: {{ formatCurrency(item.product.price) }}</div>
-        <button @click="cart.addItem(item.product.id)" class="text-fg-brand bg-neutral-primary border border-brand hover:bg-brand focus:ring-4 focus:ring-brand-subtle font-medium leading-5 rounded-base text-xs px-3 py-1.5 focus:outline-none">Add 1</button>
-        <button @click="cart.decreaseItem(item.product.id)" class="bg-neutral-primary border border-danger hover:bg-danger hover:text-blue focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Remove 1</button>
-        <button @click="cart.deleteItem(item.product.id)" class="bg-red-500">Delete</button>
+
+        <BaseButton variant="secondary" @click="cart.addItem(item.product.id)">Add 1</BaseButton>
+        
+        <BaseButton variant="secondary" @click="cart.decreaseItem(item.product.id)">Remove 1</BaseButton>
+        
+        <BaseButton variant="danger" @click="cart.deleteItem(item.product.id)">Delete</BaseButton>
         <br>
     </div>
 
-    <div class="px-3 py-2" v-if="cartLines.length !== 0 ">Total price: {{ formatCurrency(totalPrice) }}</div>
-    <div class="py-1 px-2" v-if="cartLines.length !== 0 ">
-        <button @click="checkout" :disabled="isSubmitting" class="bg-green-400 rounded-full hover:bg-green-500 py-2 px-2 disabled:opacity-50 disabled:cursor-not-allowed">Complete purchase</button>
+    <div v-if="cartLines.length !== 0 ">Total price: {{ formatCurrency(totalPrice) }}</div>
+    <div v-if="cartLines.length !== 0 ">
+        
+        <BaseButton variant="primary" @click="checkout" :disabled="isSubmitting">Complete purchase</BaseButton>
+    
     </div>
 
     <div v-if="errorMessage">
