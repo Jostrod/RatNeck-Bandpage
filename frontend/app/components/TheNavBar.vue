@@ -10,24 +10,26 @@ const cart = useCartStore()
     <!-- Cart -->
 
     <div class="col-start-1 row-start-1 self-start justify-self-start">
-      <NuxtLink to="/cart">
+      
+      <NuxtLink to="/cart" aria-label="cart">
         <div class="relative inline-block bg-blue-500 rounded-full">
           <Icon name="mdi:cart" size="30px" />
           <span
             v-if="cart.totalItems > 0"
-            class="absolute bottom-0 right-0 w-5 h-5 flex items-center justify-center">
+            class="absolute bottom-0 right-0 w-5 h-5 flex items-center justify-center text-black font-bold">
             {{ cart.totalItems }}
           </span>
         </div>
       </NuxtLink>
+      
     </div>
 
     <!-- Left nav group -->
 
     <div
       class="col-start-1 row-start-2 flex items-center gap-5 flex-wrap justify-evenly">
-      <NuxtLink to="/merch">Merch</NuxtLink>
-      <NuxtLink to="/concerts">Concerts</NuxtLink>
+      <NavLink to="/merch">Merch</NavLink>
+      <NavLink to="/concerts">Concerts</NavLink>
     </div>
 
     <!-- Logo -->
@@ -42,8 +44,8 @@ const cart = useCartStore()
 
     <div
       class="col-start-3 row-start-2 flex items-center gap-5 flex-wrap justify-evenly">
-      <NuxtLink to="/news">News</NuxtLink>
-      <NuxtLink to="/contact">Contact</NuxtLink>
+      <NavLink to="/news">News</NavLink>
+      <NavLink to="/contact">Contact</NavLink>
     </div>
   </nav>
 </template>
