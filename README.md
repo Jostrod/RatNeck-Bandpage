@@ -26,10 +26,10 @@ Backend mostly operational. Non-essentials at this point like Authentication and
 - [x] Unit and integration tests
 - [x] CORS configuration
 - [ ] Authentication
-- [ ] Persistent database (currently H2 in-memory)
+- [x] Persistent database 
 
 ### Frontend
-- [ ] Not started
+- [x] In progress 
 
 ## Architecture
 ```
