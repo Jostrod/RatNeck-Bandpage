@@ -35,9 +35,9 @@ const cart = useCartStore()
     <!-- Logo -->
 
     <NuxtLink
-      to="/"
-      class="col-start-2 row-start-1 self-center justify-self-center">
-      <SvgLogo class="h-[300px]" />
+      to="/" class=" col-start-2 row-start-1 self-center justify-self-center">
+      <SvgLogo class="h-[300px] transition duration-500 hover:-translate-y-1 
+                      hover:drop-shadow-[0_5px_5px_#a63e78]" />
     </NuxtLink>
 
     <!-- Right nav group -->
