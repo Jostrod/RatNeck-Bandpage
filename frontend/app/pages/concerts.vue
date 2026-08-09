@@ -50,11 +50,11 @@ function formatDate(date: string) {
                     <div class="text-center ">{{ concert.venue }}</div>
                     <div class="text-center">{{ concert.city }}</div>
                     <div class="text-center">{{ formatDate(concert.date) }}</div>
-                    <div class="text-center">{{ concert.ticketPrice }}</div>
+                    <div class="text-center">{{ formatCurrency(concert.ticketPrice) }}</div>
                     <div class="text-center">
 
                         <a :href="concert.ticketLink" target="_blank" rel="noopener noreferrer"
-                            class="inline-block rounded border-2 border-slate-800 text-sm font-medium text-slate-800 transition duration-150 ease-in-out hover:bg-slate-900 hover:text-white focus:outline-none active:bg-slate-700">Kjøp
+                            class="inline-block rounded border-2 border-slate-800 text-sm font-medium text-white transition duration-150 ease-in-out hover:bg-slate-900 hover:text-white focus:outline-none active:bg-slate-700">Kjøp
                             billetter her</a>
 
                     </div>
