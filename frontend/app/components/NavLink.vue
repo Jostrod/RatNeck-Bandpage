@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
     <NuxtLink :to="to" class="p-2 mb-1 relative group hover:bg-black/10 transition duration-500 hover:scale-105 hover:translate-x-1 
-                            hover:-translate-y-0.5 hover:shadow-sm hover:shadow-black">
+                            hover:-translate-y-0.5 hover:shadow-[-5px_3px_10px_#a63e78]">
                                     <slot />
         <!--Top line and right vertical line  -->
         <span class="absolute right-0 top-0 w-0 h-[1px] bg-black transition-all duration-150 group-hover:w-full"></span>
