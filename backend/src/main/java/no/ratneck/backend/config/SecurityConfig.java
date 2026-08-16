@@ -19,7 +19,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/api/concerts/**").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/api/concerts/**", "/api/merch/**").permitAll()
                         .anyRequest().authenticated()).formLogin(form -> form.successHandler(
                                 ((request, response, authentication) -> response.setStatus(200)))
                         .failureHandler((request, response, exception) -> response.setStatus(401)))
