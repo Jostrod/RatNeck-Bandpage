@@ -7,4 +7,5 @@
 
 <template>
     <AdminConcertForm />
+    <AdminLogOutButton />
 </template>
