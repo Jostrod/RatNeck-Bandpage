@@ -1,39 +1,46 @@
 # RatNeck-Bandpage
-Website built for the norwegian rock band RatNeck. The site will include a merch store, contact site and a concert-management-system for the band. 
+Website for the Norwegian rock band RatNeck, where I play drums. The site will include a concert overview, a contact page and a merch store. The backend is a Spring Boot REST API and the frontend is built with Nuxt.
 
 ## Tech Stack
 
-### Backend:
+### Backend
 - Java 21, Spring Boot, Maven
-- Spring Web, Spring Data JPA
-- H2 (in-memory database)
+- Spring Web, Spring Data JPA, Spring Security, Bean Validation
+- H2 (in-memory database) – MySQL planned
 - Lombok
 
-
 ### Frontend
-- Nuxt, Vue
+- Nuxt 3, Vue 3, Tailwind CSS
 - Node v24
 
 ### Testing
 - JUnit 5, Mockito
 
-
 ## Status
-Backend mostly operational. Non-essentials at this point like Authentication and Swagger are not yet set up. CORS is configured to allow frontend-backend communication.
+The concert API is operational. The frontend is in progress.
+
 ### Backend
 - [x] Concert CRUD API
 - [x] Input validation and error handling
 - [x] Unit and integration tests
 - [x] CORS configuration
-- [ ] Authentication
-- [x] Persistent database 
+- [x] Session-based admin login (Spring Security) – public GET, protected write operations
+- [ ] Persistent database (MySQL)
+- [ ] CSRF protection for production
 
 ### Frontend
-- [x] In progress 
+- [ ] Concert overview and admin pages (in progress)
+
+### Planned
+- [ ] Merch store with Stripe payments
+- [ ] Deployment
 
 ## Architecture
 ```
 HTTP Request
+    │
+    ▼
+Security    ──── public GET, login required for write operations
     │
     ▼
 Controller  ──── validates input (@Valid), maps HTTP to method calls
@@ -45,29 +52,34 @@ Service     ──── business logic, DTO <-> entity conversion
 Repository  ──── database access (Spring Data JPA)
     │
     ▼
-H2 Database
+H2 Database (MySQL planned)
 ```
+
 ## API Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/concerts | Get all concerts |
-| GET | /api/concerts/{id} | Get concert by id |
-| POST | /api/concerts | Create a concert |
-| PUT | /api/concerts/{id} | Update a concert |
-| DELETE | /api/concerts/{id} | Delete a concert |
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| GET | /api/concerts | Get all concerts | Public |
+| GET | /api/concerts/{id} | Get concert by id | Public |
+| POST | /api/concerts | Create a concert | Admin |
+| PUT | /api/concerts/{id} | Update a concert | Admin |
+| DELETE | /api/concerts/{id} | Delete a concert | Admin |
+| POST | /login | Log in (form: username, password) | Public |
+| POST | /logout | Log out | Admin |
 
 ## Getting Started
 
-> **Note:** The backend reads the database password from a `DB_PASSWORD` 
-> environment variable (referenced as `${DB_PASSWORD}` in application.properties). 
-> Set it before running, e.g. via your IDE's run configuration.
+> **Note:** The backend requires two environment variables:
+> - `DB_PASSWORD` – password for the H2 database
+> - `ADMIN_PASSWORD` – password for the `admin` user
+>
+> Set them before running, e.g. via your IDE's run configuration.
 
 ### Backend
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
-Runs on `http://localhost:8080`
+Runs on `http://localhost:8080`. The H2 console is available at `/h2-console`.
 
 ### Frontend
 ```bash
@@ -76,5 +88,3 @@ npm install
 npm run dev
 ```
 Runs on `http://localhost:3000`
-
-
