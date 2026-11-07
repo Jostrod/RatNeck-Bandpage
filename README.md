@@ -21,18 +21,20 @@ The concert API is operational. The frontend is in progress.
 
 ### Backend
 - [x] Concert CRUD API
+- [x] Merch CRUD API with stock status
 - [x] Input validation and error handling
 - [x] Unit and integration tests
 - [x] CORS configuration
 - [x] Session-based admin login (Spring Security) – public GET, protected write operations
 - [ ] Persistent database (MySQL)
 - [ ] CSRF protection for production
-
+      
 ### Frontend
+- [x] Merch page with sizes, prices and sold-out status (basic listing, styling in progress)
 - [ ] Concert overview and admin pages (in progress)
 
 ### Planned
-- [ ] Merch store with Stripe payments
+- [ ] Orders and Stripe payments
 - [ ] Deployment
 
 ## Architecture
@@ -82,9 +84,12 @@ H2 Database (MySQL planned)
 ### Backend
 ```bash
 cd backend
-./mvnw spring-boot:run
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
-Runs on `http://localhost:8080`. The H2 console is available at `/h2-console`.
+On Windows (PowerShell): `.\mvnw spring-boot:run -D"spring-boot.run.profiles=dev"`
+
+Runs on `http://localhost:8080`. The `dev` profile seeds sample concerts and merch on startup.
+In IntelliJ, set *Active profiles* to `dev` in the run configuration instead.
 
 ### Frontend
 ```bash
