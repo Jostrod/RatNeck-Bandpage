@@ -63,6 +63,11 @@ H2 Database (MySQL planned)
 | POST | /api/concerts | Create a concert | Admin |
 | PUT | /api/concerts/{id} | Update a concert | Admin |
 | DELETE | /api/concerts/{id} | Delete a concert | Admin |
+| GET | /api/merch | Get all merch | Public |
+| GET | /api/merch/{id} | Get merch item by id | Public |
+| POST | /api/merch | Create a merch item | Admin |
+| PUT | /api/merch/{id} | Update a merch item | Admin |
+| DELETE | /api/merch/{id} | Delete a merch item | Admin |
 | POST | /login | Log in (form: username, password) | Public |
 | POST | /logout | Log out | Admin |
 
