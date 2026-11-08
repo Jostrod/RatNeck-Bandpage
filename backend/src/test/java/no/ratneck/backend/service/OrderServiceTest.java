@@ -1,6 +1,7 @@
 package no.ratneck.backend.service;
 
 
+import no.ratneck.backend.config.SecurityConfig;
 import no.ratneck.backend.dto.OrderLineRequestDTO;
 import no.ratneck.backend.dto.OrderRequestDTO;
 import no.ratneck.backend.dto.OrderResponseDTO;
@@ -16,6 +17,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
@@ -50,11 +53,14 @@ public class OrderServiceTest {
 
         Merch merch = new Merch();
         merch.setPrice(BigDecimal.valueOf(500.0));
+        merch.setQuantity(20);
 
         when(merchRepository.findById(1L)).thenReturn(Optional.of(merch));
 
         when(orderRepository.save(any(Order.class))).thenAnswer(invocation ->
                 invocation.getArgument(0));
+
+        orderService.createOrder(requestDTO);
 
         verify(orderRepository).save(orderCaptor.capture());
         Order captured = orderCaptor.getValue();
