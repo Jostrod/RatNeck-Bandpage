@@ -13,6 +13,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class ConcertControllerTest {
         ConcertDTO mockConcert = new ConcertDTO(1L,"Spektrum",
                 "Trondheim",
                 LocalDateTime.of(2027, 8, 15, 20, 0),
-                200.0,
+                BigDecimal.valueOf(200.0),
                 "link.no");
 
         when(concertService.getConcertById(id)).thenReturn(mockConcert);
@@ -72,19 +73,17 @@ public class ConcertControllerTest {
 
     @Test
     public void given_valid_concert_when_post_concert_returns_concert_dto() throws Exception {
-        ConcertRequestDTO requestDTO = new ConcertRequestDTO();
-
-        requestDTO.setVenue("Spektrum");
-        requestDTO.setTicketLink("link.no");
-        requestDTO.setTicketPrice(200.0);
-        requestDTO.setDate(LocalDateTime.of(2027, 8, 15, 20, 0));
-        requestDTO.setCity("Trondheim");
+        ConcertRequestDTO requestDTO = new ConcertRequestDTO("Spektrum",
+                "Trondheim",
+                LocalDateTime.of(2027, 8, 15, 20, 0),
+                BigDecimal.valueOf(200.0),
+                "link.no");
 
 
         ConcertDTO returnedDTO = new ConcertDTO(1L,"Spektrum",
                 "Trondheim",
                 LocalDateTime.of(2027, 8, 15, 20, 0),
-                200.0,
+                BigDecimal.valueOf(200.0),
                 "link.no");
 
         when(concertService.createConcert(any(ConcertRequestDTO.class))).thenReturn(returnedDTO);
@@ -100,8 +99,7 @@ public class ConcertControllerTest {
 
     @Test
     public void given_invalid_data_when_post_concert_returns_bad_request() throws Exception {
-        ConcertRequestDTO invalidConcert = new ConcertRequestDTO();
-        invalidConcert.setTicketPrice(-200.0);
+        ConcertRequestDTO invalidConcert = new ConcertRequestDTO(null, null, null, BigDecimal.valueOf(-200), null);
 
         mvc.perform(post("/api/concerts")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -115,11 +113,11 @@ public class ConcertControllerTest {
     public void given_valid_concerts_when_get_concerts_returns_ok() throws Exception{
         ConcertDTO concert1 = new ConcertDTO( 1L, "Spektrum", "Trondheim",
                 LocalDateTime.of(2027, 8, 15, 20, 0),
-                200.0, "link1.no");
+                BigDecimal.valueOf(200.0), "link1.no");
 
         ConcertDTO concert2 = new ConcertDTO(2L, "Sentrum Scene", "Oslo",
                 LocalDateTime.of(2027, 9, 20, 19, 0),
-                350.0, "link2.no");
+                BigDecimal.valueOf(350.0), "link2.no");
 
         when(concertService.getAllConcerts()).thenReturn(List.of(concert1, concert2));
 

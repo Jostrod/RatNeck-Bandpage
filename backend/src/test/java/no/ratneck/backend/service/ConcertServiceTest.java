@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -41,7 +42,7 @@ public class ConcertServiceTest {
         //Given
         Concert concert = new Concert();
         concert.setId((long) 1);
-        concert.setTicketPrice(200);
+        concert.setTicketPrice(BigDecimal.valueOf(200.0));
         concert.setCity("Trondheim");
         concert.setTicketLink("link.to.ticket.no");
         concert.setDate(LocalDateTime.of(2027, 8, 15, 20, 0));
@@ -51,10 +52,10 @@ public class ConcertServiceTest {
         //When
         ConcertDTO response = concertService.getConcertById(1L);
         //Then
-        assertEquals("Spektrum", response.getVenue());
-        assertEquals("link.to.ticket.no", response.getTicketLink());
-        assertEquals(200.0, response.getTicketPrice());
-        assertEquals("Trondheim", response.getCity());
+        assertEquals("Spektrum", response.venue());
+        assertEquals("link.to.ticket.no", response.ticketLink());
+        assertEquals(BigDecimal.valueOf(200.0), response.ticketPrice());
+        assertEquals("Trondheim", response.city());
     }
 
     @Test
@@ -69,7 +70,7 @@ public class ConcertServiceTest {
     @Test
     public void given_concert_id_not_found_when_update_concert_service_throws_concert_not_found(){
         when(concertRepository.findById(999L)).thenReturn(Optional.empty());
-        ConcertRequestDTO dto = new ConcertRequestDTO();
+        ConcertRequestDTO dto = new ConcertRequestDTO(null, null, null, null, null);
         assertThrows(ResourceNotFoundException.class, () -> concertService.updateConcert(999L, dto));
     }
 
@@ -80,25 +81,24 @@ public class ConcertServiceTest {
         excistingConcert.setId(1L);
         excistingConcert.setCity("Trondheim");
         excistingConcert.setDate(LocalDateTime.of(2027, 8, 15, 20, 0));
-        excistingConcert.setTicketPrice(250.0);
+        excistingConcert.setTicketPrice(BigDecimal.valueOf(250.0));
         excistingConcert.setTicketLink("ticketlink.no");
 
-        ConcertRequestDTO requestDTO = new ConcertRequestDTO();
-        requestDTO.setCity("Oslo");
-        requestDTO.setVenue("Telenor Arena");
-        requestDTO.setDate(LocalDateTime.of(2027, 8, 15, 21, 0));
-        requestDTO.setTicketPrice(500.0);
-        requestDTO.setTicketLink("newTicketLink.no");
+        ConcertRequestDTO requestDTO = new ConcertRequestDTO("Telenor Arena",
+                "Oslo",
+                LocalDateTime.of(2027, 8, 15, 21, 0),
+                BigDecimal.valueOf(500.0),
+                "newTicketLink.no");
 
         when(concertRepository.findById(1L)).thenReturn(Optional.of(excistingConcert));
 
         ConcertDTO response = concertService.updateConcert(1L, requestDTO);
 
 
-        assertEquals("Oslo", response.getCity());
-        assertEquals("Telenor Arena", response.getVenue());
-        assertEquals("newTicketLink.no", response.getTicketLink());
-        assertEquals(500.0, response.getTicketPrice());
+        assertEquals("Oslo", response.city());
+        assertEquals("Telenor Arena", response.venue());
+        assertEquals("newTicketLink.no", response.ticketLink());
+        assertEquals(BigDecimal.valueOf(500.0), response.ticketPrice());
     }
 
     @Test
@@ -122,12 +122,11 @@ public class ConcertServiceTest {
     public void given_valid_request_when_create_concert_service_maps_all_fields(){
         ArgumentCaptor<Concert> capturedConcert = ArgumentCaptor.forClass(Concert.class);
 
-        ConcertRequestDTO requestDTO = new ConcertRequestDTO();
-        requestDTO.setCity("Trondheim");
-        requestDTO.setVenue("Spektrum");
-        requestDTO.setDate(LocalDateTime.of(2027, 8, 15, 21, 0));
-        requestDTO.setTicketLink("link.no");
-        requestDTO.setTicketPrice(200.0);
+        ConcertRequestDTO requestDTO = new ConcertRequestDTO("Spektrum",
+                "Trondheim",
+                LocalDateTime.of(2027, 8, 15, 21, 0),
+                BigDecimal.valueOf(200.0),
+                "link.no");
 
 
         Concert savedConcert = new Concert();
@@ -136,7 +135,7 @@ public class ConcertServiceTest {
         savedConcert.setVenue("Spektrum");
         savedConcert.setDate(LocalDateTime.of(2027, 8, 15, 21, 0));
         savedConcert.setTicketLink("link.no");
-        savedConcert.setTicketPrice(200.0);
+        savedConcert.setTicketPrice(BigDecimal.valueOf(200.0));
 
         when(concertRepository.save(any(Concert.class))).thenReturn(savedConcert);
 
@@ -148,11 +147,11 @@ public class ConcertServiceTest {
         assertEquals("Trondheim", captured.getCity());
         assertEquals("Spektrum", captured.getVenue());
         assertEquals("link.no", captured.getTicketLink());
-        assertEquals(200.0, captured.getTicketPrice());
+        assertEquals(BigDecimal.valueOf(200.0), captured.getTicketPrice());
 
-        assertEquals("Trondheim", response.getCity());
-        assertEquals("Spektrum", response.getVenue());
-        assertEquals("link.no", response.getTicketLink());
-        assertEquals(200.0, response.getTicketPrice());
+        assertEquals("Trondheim", response.city());
+        assertEquals("Spektrum", response.venue());
+        assertEquals("link.no", response.ticketLink());
+        assertEquals(BigDecimal.valueOf(200.0), response.ticketPrice());
     }
 }
