@@ -1,6 +1,7 @@
 package no.ratneck.backend.controller;
 
 
+import no.ratneck.backend.config.SecurityConfig;
 import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.dto.ConcertRequestDTO;
 import no.ratneck.backend.exception.ResourceNotFoundException;
@@ -8,7 +9,9 @@ import no.ratneck.backend.service.ConcertService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
@@ -25,7 +28,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(ConcertController.class)
+@WebMvcTest(value = ConcertController.class, properties = "ADMIN_PASSWORD=test")
+@Import(SecurityConfig.class)
 public class ConcertControllerTest {
 
     @Autowired
@@ -72,6 +76,7 @@ public class ConcertControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void given_valid_concert_when_post_concert_returns_concert_dto() throws Exception {
         ConcertRequestDTO requestDTO = new ConcertRequestDTO("Spektrum",
                 "Trondheim",
@@ -91,13 +96,14 @@ public class ConcertControllerTest {
         mvc.perform(post("/api/concerts")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDTO)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.venue").value("Spektrum"))
                 .andExpect(jsonPath("$.city").value("Trondheim"))
                 .andExpect(jsonPath("$.ticketPrice").value(200.0));
     }
 
     @Test
+    @WithMockUser
     public void given_invalid_data_when_post_concert_returns_bad_request() throws Exception {
         ConcertRequestDTO invalidConcert = new ConcertRequestDTO(null, null, null, BigDecimal.valueOf(-200), null);
 
@@ -110,6 +116,7 @@ public class ConcertControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void given_valid_concerts_when_get_concerts_returns_ok() throws Exception{
         ConcertDTO concert1 = new ConcertDTO( 1L, "Spektrum", "Trondheim",
                 LocalDateTime.of(2027, 8, 15, 20, 0),

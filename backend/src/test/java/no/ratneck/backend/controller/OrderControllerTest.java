@@ -1,12 +1,15 @@
 package no.ratneck.backend.controller;
 
 
+import no.ratneck.backend.config.SecurityConfig;
 import no.ratneck.backend.dto.OrderResponseDTO;
 import no.ratneck.backend.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
@@ -22,7 +25,8 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(OrderController.class)
+@WebMvcTest(value = OrderController.class, properties = "ADMIN_PASSWORD=test")
+@Import(SecurityConfig.class)
 public class OrderControllerTest {
 
     @Autowired
@@ -35,6 +39,7 @@ public class OrderControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     public void given_valid_order_when_postOrder_returns_201() throws Exception {
         OrderResponseDTO responseDTO = new OrderResponseDTO(1L, LocalDateTime.now(), List.of(), BigDecimal.ZERO);
 
@@ -51,6 +56,7 @@ public class OrderControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void given_invalid_order_when_postOrder_returns_400() throws Exception {
         String jsonBody = """
                 {"lines": []}
