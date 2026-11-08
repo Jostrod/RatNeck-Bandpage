@@ -38,7 +38,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             concert1.setDate(LocalDateTime.of(2026, 9, 12, 20, 0));
             concert1.setTicketLink("konsert1.link");
             concert1.setVenue("Sentrum Scene");
-            concert1.setTicketPrice(300.0);
+            concert1.setTicketPrice(BigDecimal.valueOf(300.0));
 
             Concert concert2 = new Concert();
 
@@ -46,7 +46,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             concert2.setDate(LocalDateTime.of(2026, 5, 20, 21, 0));
             concert2.setTicketLink("konsert2.link");
             concert2.setVenue("Oslo Scene");
-            concert2.setTicketPrice(350.0);
+            concert2.setTicketPrice(BigDecimal.valueOf(300.0));
 
             Concert concert3 = new Concert();
 
@@ -54,7 +54,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             concert3.setDate(LocalDateTime.of(2026, 1, 5, 20, 30));
             concert3.setTicketLink("konsert3.link");
             concert3.setVenue("Stavanger Scene");
-            concert3.setTicketPrice(400.0);
+            concert3.setTicketPrice(BigDecimal.valueOf(400.0));
 
 
             concertRepository.saveAll(List.of(concert1, concert2, concert3));

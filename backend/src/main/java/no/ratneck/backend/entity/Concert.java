@@ -4,6 +4,8 @@ package no.ratneck.backend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -22,7 +24,7 @@ public class Concert {
 
     private LocalDateTime date;
 
-    private double ticketPrice;
+    private BigDecimal ticketPrice;
 
     private String ticketLink;
 

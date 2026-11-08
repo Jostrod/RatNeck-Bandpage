@@ -45,11 +45,11 @@ public class ConcertService {
     public ConcertDTO createConcert(ConcertRequestDTO requestDTO){
 
         Concert concert = new Concert();
-        concert.setCity(requestDTO.getCity());
-        concert.setDate(requestDTO.getDate());
-        concert.setVenue(requestDTO.getVenue());
-        concert.setTicketPrice(requestDTO.getTicketPrice());
-        concert.setTicketLink(requestDTO.getTicketLink());
+        concert.setCity(requestDTO.city());
+        concert.setDate(requestDTO.date());
+        concert.setVenue(requestDTO.venue());
+        concert.setTicketPrice(requestDTO.ticketPrice());
+        concert.setTicketLink(requestDTO.ticketLink());
 
 
         Concert savedConcert = concertRepository.save(concert);
@@ -68,11 +68,11 @@ public class ConcertService {
     public ConcertDTO updateConcert(Long id, ConcertRequestDTO requestDTO){
         Concert existingConcert = concertRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Concert", id));
 
-        existingConcert.setCity(requestDTO.getCity());
-        existingConcert.setDate(requestDTO.getDate());
-        existingConcert.setVenue(requestDTO.getVenue());
-        existingConcert.setTicketPrice(requestDTO.getTicketPrice());
-        existingConcert.setTicketLink(requestDTO.getTicketLink());
+        existingConcert.setCity(requestDTO.city());
+        existingConcert.setDate(requestDTO.date());
+        existingConcert.setVenue(requestDTO.venue());
+        existingConcert.setTicketPrice(requestDTO.ticketPrice());
+        existingConcert.setTicketLink(requestDTO.ticketLink());
         concertRepository.save(existingConcert);
         logger.info("Concert with id {} successfully updated", existingConcert.getId());
         return new ConcertDTO(existingConcert.getId(), existingConcert.getVenue(), existingConcert.getCity(),
