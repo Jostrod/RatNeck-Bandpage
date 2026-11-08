@@ -2,6 +2,7 @@ package no.ratneck.backend.controller;
 
 import no.ratneck.backend.common.MerchType;
 import no.ratneck.backend.common.Size;
+import no.ratneck.backend.config.SecurityConfig;
 import no.ratneck.backend.dto.MerchDTO;
 import no.ratneck.backend.dto.MerchRequestDTO;
 import no.ratneck.backend.exception.ResourceNotFoundException;
@@ -9,7 +10,9 @@ import no.ratneck.backend.service.MerchService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
@@ -24,7 +27,8 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-@WebMvcTest(MerchController.class)
+@WebMvcTest(value = MerchController.class, properties = "ADMIN_PASSWORD=test")
+@Import(SecurityConfig.class)
 public class MerchControllerTest {
 
     @Autowired
@@ -65,6 +69,7 @@ public class MerchControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void given_valid_merch_when_post_merch_returns_merch_dto() throws Exception{
 
         MerchRequestDTO requestDTO = new MerchRequestDTO();
@@ -93,6 +98,7 @@ public class MerchControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void given_invalid_data_when_post_merch_returns_bad_request() throws Exception{
         MerchRequestDTO invalidMerch = new MerchRequestDTO();
 
