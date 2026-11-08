@@ -6,6 +6,7 @@ import no.ratneck.backend.dto.ConcertRequestDTO;
 
 import no.ratneck.backend.dto.ConcertDTO;
 import no.ratneck.backend.service.ConcertService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +18,13 @@ public class ConcertController {
     private final ConcertService concertService;
 
 
-
     public ConcertController(ConcertService concertService) {
         this.concertService = concertService;
     }
 
 
     @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
     public ConcertDTO createConcert(@Valid @RequestBody ConcertRequestDTO concertRequestDTO){
         return concertService.createConcert(concertRequestDTO);
     }

@@ -3,24 +3,21 @@ package no.ratneck.backend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import lombok.Data;
+import jakarta.validation.constraints.PositiveOrZero;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
-public class ConcertRequestDTO {
+public record ConcertRequestDTO(
 
-    @NotBlank
-    private String venue;
-    @NotBlank
-    private String city;
-    @NotNull
-    private LocalDateTime date;
-    @Positive
-    private double ticketPrice;
-    @NotBlank
-    private String ticketLink;
+        @NotBlank String venue,
 
-}
+        @NotBlank String city,
+
+        @NotNull LocalDateTime date,
+
+        @PositiveOrZero @NotNull BigDecimal ticketPrice,
+
+        @NotBlank String ticketLink
+) {}
